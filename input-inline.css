@@ -1,0 +1,51 @@
+/* default styling has lowest priority */
+@layer {
+    :root {
+        /* copied from blink defaults */
+        --input-inline-border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+        --input-inline-border-color-hover: light-dark(rgb(78, 78, 78), rgb(173, 173, 173));
+        --input-inline-border-color-disabled: rgba(118, 118, 118, 0.3);
+        --input-inline-text-color: fieldtext;
+        --input-inline-text-color-disabled: light-dark(rgb(84, 84, 84), rgb(170, 170, 170));
+        --input-inline-bg-color: inherit;
+        --input-inline-bg-color-disabled: inherit;
+/* to make it look more like a real form field:
+        --input-inline-bg-color: field;
+        --input-inline-bg-color-disabled: light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3));
+*/
+        --input-inline-min-width: 3ch;
+    }
+
+    input-inline {
+        display: inline;
+        background-color: var(--input-inline-bg-color);
+        color: var(--input-inline-text-color);
+        border-bottom: 1px dotted var(--input-inline-border-color);
+        padding: 2px 3px;
+        border-radius: 3px;
+        /* minimum width */
+        padding-right: max(3px, calc(var(--input-inline-min-width) - var(--current-length)));
+
+        &:hover {
+            border-color: var(--input-inline-border-color-hover);
+        }
+    
+        &:disabled {
+            border-color: var(--input-inline-border-color-disabled);
+            background-color: var(--input-inline-bg-color-disabled);
+            color: var(--input-inline-text-color-disabled);
+        }
+    
+        &:focus-visible {
+            border-color: transparent;
+            outline-offset: 0;
+            outline: 2px solid royalblue; /* firefox */
+            outline-color: -webkit-focus-ring-color; /* the rest */
+        }
+
+        &::before {
+            /* fixes issue where empty input-inline shifts left */
+            content: "\200B";
+        }
+    }
+}
