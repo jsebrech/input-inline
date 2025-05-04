@@ -60,6 +60,9 @@
         pre {
             white-space: pre-wrap;
         }
+        input-inline:invalid {
+            border: 1px solid red;
+        }
     </style>
 </head>
 <body>
@@ -113,12 +116,12 @@
         <h3>2.4 Required</h3>
         <div class="demo-container">
             <form id="required-form">
-                <p>This field is required: <input-inline name="required-field" required></input-inline></p>
+                <p><label for="required-field">This field is required:</label> <input-inline id="required-field" name="required-field" required></input-inline></p>
                 <button type="submit">Submit</button>
             </form>
             <div id="required-log" class="event-log"></div>
             <pre><code>&lt;form id="required-form"&gt;
-    &lt;p&gt;This field is required: &lt;input-inline name="required-field" required&gt;&lt;/input-inline&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;label for="required-field"&gt;This field is required:&lt;/label&gt; &lt;input-inline id="required-field" name="required-field" required&gt;&lt;/input-inline&gt;&lt;/p&gt;
     &lt;button type="submit"&gt;Submit&lt;/button&gt;
 &lt;/form&gt;</code></pre>
         </div>

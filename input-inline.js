@@ -101,9 +101,7 @@ customElements.define('input-inline', class extends HTMLElement {
         switch (e.type) {
             // respond to user input (typing, drag-and-drop, paste)
             case 'input':
-                this.value = this.textContent
-                    // replace newlines and tabs with spaces
-                    .replace(/[\n\r\t]+/g, ' ');
+                this.value = cleanTextContent(this.textContent);
                 this.#shouldFireChange = true;
                 break;
             // enter key should submit form instead of adding a new line
@@ -156,7 +154,11 @@ customElements.define('input-inline', class extends HTMLElement {
     }
 
     #update() {
-        if (this.textContent !== this.value) this.textContent = this.value;
+        if (this.value === '' || cleanTextContent(this.textContent) !== this.value) {
+            // content cannot be actually empty or it triggers a bug where the caret cannot be set in the element
+            // see https://bugs.webkit.org/show_bug.cgi?id=15256
+            this.textContent = '\u200B' + this.value;
+        }
         this.#internals.setFormValue(this.value === '' ? null : this.value);
         this.#internals.ariaRequired = this.required;
         this.#internals.ariaDisabled = this.disabled;
@@ -169,7 +171,7 @@ customElements.define('input-inline', class extends HTMLElement {
         // focusable when readonly, but not when disabled
         this.tabIndex = isDisabled ? -1 : 0;
         // used to set minimum width in default stylesheet
-        const length = this.textContent?.length || 0;
+        const length = cleanTextContent(this.textContent).length || 0;
         this.style.setProperty('--current-length', `${length}ch`);
         // update valid state
         this.#updateValidity();
@@ -246,3 +248,11 @@ customElements.define('input-inline', class extends HTMLElement {
     }
 
 });
+
+function cleanTextContent(text) {
+    return (text ?? '')
+        // replace newlines and tabs with spaces
+        .replace(/[\n\r\t]+/g, ' ')
+        // remove zero width spaces
+        .replace(/\u200B/g, '');
+}
