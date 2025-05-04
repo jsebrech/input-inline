@@ -36,7 +36,7 @@ Run a static server:
 
 `npx http-server .`
 
-Browse to http://localhost:8080/example/index.html
+Browse to [localhost:8080/example/index.html](example/index.html).
 
 ## Known issues
 
