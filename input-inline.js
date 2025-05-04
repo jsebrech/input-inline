@@ -8,6 +8,8 @@ let VALUE_MISSING_MESSAGE = 'Please fill out this field.';
     VALUE_MISSING_MESSAGE = input.validationMessage;
 })();
 
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 customElements.define('input-inline', class extends HTMLElement {
 
     #value;
@@ -216,8 +218,21 @@ customElements.define('input-inline', class extends HTMLElement {
             // add other checks here if needed (e.g., pattern, minLength)
         }
 
+        // safari needs a focusable validation anchor to show the validation message on form submit
+        // and it must be a descendant of the input
+        let anchor = undefined;
+        if (isSafari) {
+            anchor = this.querySelector('span[aria-hidden]');
+            if (!anchor) {
+                anchor = document.createElement('span');
+                anchor.ariaHidden = true;
+                anchor.tabIndex = 0;
+                this.append(anchor);
+            }
+        }
+
         // set the validity state on the internals object
-        this.#internals.setValidity(state, message);
+        this.#internals.setValidity(state, message, anchor);
     }
 
     checkValidity() {

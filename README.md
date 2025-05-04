@@ -37,7 +37,3 @@ Run a static server:
 `npx http-server .`
 
 Browse to localhost:8080/example/index.html
-
-## Known issues
-
-- Safari: form submit does not focus invalid input-inline elements or show their validation message
