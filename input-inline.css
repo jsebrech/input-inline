@@ -22,7 +22,7 @@
         color: var(--input-inline-text-color);
         border-bottom: 1px dotted var(--input-inline-border-color);
         padding: 2px 3px;
-        border-radius: 3px;
+        border-radius: 0;
         /* minimum width */
         padding-right: max(3px, calc(var(--input-inline-min-width) - var(--current-length)));
 
@@ -40,6 +40,7 @@
     
         &:focus-visible {
             border-color: transparent;
+            border-radius: 3px;
             outline-offset: 0;
             outline: 2px solid royalblue; /* firefox */
             outline-color: -webkit-focus-ring-color; /* the rest */
