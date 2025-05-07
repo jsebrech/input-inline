@@ -34,6 +34,7 @@
             border-color: var(--input-inline-border-color-disabled);
             background-color: var(--input-inline-bg-color-disabled);
             color: var(--input-inline-text-color-disabled);
+            -webkit-user-select: none;
             user-select: none;
         }
     

@@ -162,10 +162,11 @@ customElements.define('input-inline', class extends HTMLElement {
             this.textContent = '\u200B' + this.value;
         }
         this.#internals.setFormValue(this.value === '' ? null : this.value);
-        this.#internals.ariaRequired = this.required;
-        this.#internals.ariaDisabled = this.disabled;
-        this.#internals.ariaReadOnly = this.readOnly;
+
         const isDisabled = this.#formDisabled || this.disabled;
+        this.#internals.ariaRequired = this.required;
+        this.#internals.ariaDisabled = isDisabled;
+        this.#internals.ariaReadOnly = this.readOnly;
         // prevent changes in disabled and readonly states
         // plaintext-only not supported by firefox (becomes equivalent to true)
         // workaround in paste handler, see constructor
