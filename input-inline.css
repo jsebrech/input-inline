@@ -48,9 +48,9 @@
     }
 
     @media screen and (-webkit-min-device-pixel-ratio:0) {
-        input-inline::before {
+        input-inline:empty::before {
             /* fixes issue where empty input-inline shifts left in chromium browsers */
-            content: "\200B";
+            content: " ";
         }
     }
 
