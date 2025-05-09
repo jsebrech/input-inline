@@ -2,10 +2,10 @@
 @layer {
     :root {
         /* copied from blink defaults */
-        --input-inline-border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
-        --input-inline-border-color-hover: light-dark(rgb(78, 78, 78), rgb(173, 173, 173));
-        --input-inline-border-color-disabled: rgba(118, 118, 118, 0.3);
-        --input-inline-text-color: fieldtext;
+        --input-inline-border-color: light-dark(rgb(118, 118, 118), rgb(161, 161, 161));
+        --input-inline-border-color-hover: light-dark(rgb(78, 78, 78), rgb(200, 200, 200));
+        --input-inline-border-color-disabled: rgba(150, 150, 150, 0.5);
+        --input-inline-text-color: light-dark(fieldtext, rgb(240, 240, 240));
         --input-inline-text-color-disabled: light-dark(rgb(84, 84, 84), rgb(170, 170, 170));
         --input-inline-bg-color: inherit;
         --input-inline-bg-color-disabled: inherit;

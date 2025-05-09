@@ -30,6 +30,8 @@ Fires events like built-in control:
 - `input`
 - `change`
 
+It supports dark mode by setting `color-scheme: light dark`;
+
 ## Example
 
 Run a static server:

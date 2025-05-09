@@ -63,6 +63,16 @@
         input-inline:invalid {
             border: 1px solid red;
         }
+
+        @media (prefers-color-scheme: dark) {
+            body, section, code, .demo-container, .event-log {
+                color: white;
+                background-color: #111111;
+            }
+            input-inline {
+                color-scheme: light dark;
+            }
+        }
     </style>
 </head>
 <body>
@@ -107,10 +117,10 @@
 
         <h3>2.3 Disabled</h3>
         <div class="demo-container">
-            <p>This is a <input-inline value="disabled" disabled></input-inline> input that is disabled.</p>
+            <p>This is a <input-inline value="disabled" disabled></input-inline> input that is always disabled.</p>
             <p>This is a <input-inline id="toggle-disabled" value="toggleable"></input-inline> input that can be toggled.</p>
             <button id="toggle-disabled-btn">Toggle Disabled</button>
-            <pre><code>&lt;p&gt;This is a &lt;input-inline value="disabled" disabled&gt;&lt;/input-inline&gt; input that is disabled.&lt;/p&gt;
+            <pre><code>&lt;p&gt;This is a &lt;input-inline value="disabled" disabled&gt;&lt;/input-inline&gt; input that is always disabled.&lt;/p&gt;
         </div>
 
         <h3>2.4 Required</h3>
