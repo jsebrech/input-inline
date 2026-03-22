@@ -20,6 +20,8 @@ customElements.define('input-inline', class extends HTMLElement {
     #shouldFireChange = false;
     /** current custom validity message */
     #customValidityMessage = '';
+    /** is the mouse button down? */
+    #isPointerDown = false;
 
     /**
      * What the input's initial value is, also the value it will be reset to
@@ -54,11 +56,7 @@ customElements.define('input-inline', class extends HTMLElement {
     }
 
     set disabled(v) {
-        if (v) {
-            this.setAttribute('disabled', 'true');
-        } else {
-            this.removeAttribute('disabled');
-        }
+        this.toggleAttribute('disabled', !!v);
     }
     get disabled() {
         // this value operates independently of whether a parent fieldset is disabled
@@ -66,22 +64,14 @@ customElements.define('input-inline', class extends HTMLElement {
     }
 
     set readOnly(v) {
-        if (v) {
-            this.setAttribute('readonly', 'true');
-        } else {
-            this.removeAttribute('readonly');
-        }
+        this.toggleAttribute('readonly', !!v);
     }
     get readOnly() {
         return this.hasAttribute('readonly');
     }
 
     set required(v) {
-        if (v) {
-            this.setAttribute('required', 'true');
-        } else {
-            this.removeAttribute('required');
-        }
+        this.toggleAttribute('required', !!v);
     }
     get required() {
         return this.hasAttribute('required');
@@ -96,7 +86,10 @@ customElements.define('input-inline', class extends HTMLElement {
         this.addEventListener('input', this);
         this.addEventListener('keydown', this);
         this.addEventListener('paste', this);
+        this.addEventListener('focus', this);
         this.addEventListener('focusout', this);
+        this.addEventListener('pointerdown', this);
+        this.addEventListener('pointerup', this);
     }
 
     handleEvent(e) {
@@ -130,6 +123,24 @@ customElements.define('input-inline', class extends HTMLElement {
                 // manually trigger input event to restore default behavior
                 this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
                 break;
+            // track whether the mouse button is down
+            case 'pointerdown':
+                this.#isPointerDown = true;
+                break;
+            case 'pointerup':
+                this.#isPointerDown = false;
+                break;
+            // mimic input type text focus/selection behavior
+            case 'focus':
+                if (this.#isPointerDown) return;
+                requestAnimationFrame(() => {
+                    const range = document.createRange();
+                    const selection = window.getSelection();
+                    range.selectNodeContents(this);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                });
+                break;
             // fire change event on blur
             case 'focusout':
                 if (this.#shouldFireChange) {
@@ -156,7 +167,7 @@ customElements.define('input-inline', class extends HTMLElement {
     }
 
     #update() {
-        if (this.value === '' || cleanTextContent(this.textContent) !== this.value) {
+        if (this.value === '' || cleanTextContent(this.textContent) !== this.value) {
             // content cannot be actually empty or it triggers a bug where the caret cannot be set in the element
             // see https://bugs.webkit.org/show_bug.cgi?id=15256
             this.textContent = '\u200B' + this.value;
